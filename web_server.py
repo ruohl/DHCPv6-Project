@@ -35,4 +35,4 @@ def handle_message(msg):
 if __name__ == "__main__":
     dhcp_thread = threading.Thread(target=start_dhcpv6_server, args=(connected_clients,))
     dhcp_thread.start()
-    socketio.run(app, host='0.0.0.0', port=5000)
+    socketio.run(app, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
