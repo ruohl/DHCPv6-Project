@@ -1,4 +1,3 @@
-# dhcpv6_server.py
 import socket
 from dhcpv6_message import DHCPv6Message
 
@@ -15,10 +14,10 @@ class DHCPv6Server:
 
         if msg.msg_type == 1:  # Solicit
             self.send_advertise(msg, addr)
-            self.client_list.append(addr[0])  # Agregar IP del cliente a la lista
+            if addr[0] not in self.client_list:
+                self.client_list.append(addr[0])
 
     def send_advertise(self, msg, addr):
-        # Crear un mensaje Advertise (tipo 2)
         response_msg = DHCPv6Message(2, msg.transaction_id)
         response_data = response_msg.pack()
         self.sock.sendto(response_data, addr)
