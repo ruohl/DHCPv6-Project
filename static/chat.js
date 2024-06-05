@@ -6,22 +6,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
         clientsList.innerHTML = '';
         clients.forEach(function(client) {
             var li = document.createElement("li");
-            li.appendChild(document.createTextNode(client));
+            li.appendChild(document.createTextNode(client.username || 'Anonymous'));
             clientsList.appendChild(li);
         });
     });
 
     socket.on('message', function(msg) {
         var li = document.createElement("li");
-        li.appendChild(document.createTextNode(msg));
+        li.appendChild(document.createTextNode(`${msg.username}: ${msg.text}`));
         document.getElementById("messages").appendChild(li);
     });
 });
 
-function sendMessage() {
-    var input = document.getElementById("message");
-    var message = input.value;
-    input.value = '';
+function mandarMensaje() {
+    var usernameInput = document.getElementById("username");
+    var messageInput = document.getElementById("message");
+    var username = usernameInput.value || 'Anonymous';
+    var message = messageInput.value;
+    messageInput.value = '';
     var socket = io();
-    socket.send(message);
+    socket.emit('message', { username: username, text: message });
+    document.getElementById("username").innerText = username;
+    if (username !== 'Anonymous') {
+        usernameInput.disabled = true;
+    }
 }
