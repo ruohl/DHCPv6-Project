@@ -10,8 +10,6 @@ class DHCPv6Server:
 
     def handle_request(self, data, addr):
         msg = DHCPv6Message.unpack(data)
-        print(f"Received message type: {msg.msg_type} from {addr}")
-
         if msg.msg_type == 1:  # Solicit
             self.send_advertise(msg, addr)
             if addr[0] not in self.client_list:
@@ -21,10 +19,9 @@ class DHCPv6Server:
         response_msg = DHCPv6Message(2, msg.transaction_id)
         response_data = response_msg.pack()
         self.sock.sendto(response_data, addr)
-        print(f"Sent Advertise message to {addr}")
 
     def run(self):
-        print("DHCPv6 Server is running")
+        print("DHCPv6 Server estan andando")
         while True:
             data, addr = self.sock.recvfrom(1024)
             self.handle_request(data, addr)
