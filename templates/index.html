@@ -1,20 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DHCPv6 Web Simulator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="myProjects/webProject/icofont/css/icofont.min.css">
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script src="{{ url_for('static', filename='chat.js') }}"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .container-fluid {
+            height: 100%;
+        }
+        .row {
+            height: 100%;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .messages {
+            flex: 1;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        .card-users {
+            display: flex;
+            flex-direction: column;
+            height: 80%;
+        }
+        .card-users-body {
+            flex: 1;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Connected Clients</h1>
-    <ul id="clients">
-        {% for client in clients %}
-            <li>{{ client }}</li>
-        {% endfor %}
-    </ul>
-    
-    <h1>Chat</h1>
-    <input id="message" autocomplete="off"><button onclick="sendMessage()">Send</button>
-    <ul id="messages"></ul>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3 bg-light p-3 full-height">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <input type="text" id="username" class="form-control" placeholder="Nombre de Usuario" aria-label="Username">
+                    </div>
+                </div>
+                <div class="card card-users">
+                    <div class="card-body card-users-body border-bottom-0">
+                        <h5>Usuarios Conectados</h5>
+                        <ul id="clients" class="list-unstyled"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9 chat-container">
+                <div class="messages border p-3" id="messages"></div>
+                <div class="input-group mb-3">
+                    <input type="text" id="message" class="form-control" placeholder="Enter your message" aria-label="Message" autocomplete="off">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" onclick="mandarMensaje()">→</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
